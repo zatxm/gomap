@@ -40,7 +40,7 @@ func (m *MapKV) Len() int {
 	return len(*m.data)
 }
 
-func (m *MapKV) All(fn func(k, v any) bool) {
+func (m *MapKV) Peek(fn func(k, v any) bool) {
 	m.mu.Lock()
 	data := *m.data
 	for i := range data {
