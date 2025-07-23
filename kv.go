@@ -13,6 +13,10 @@ type KV struct {
 type DataKv []KV
 
 func (d *DataKv) Set(key, val any) {
+	if val == nil {
+		return
+	}
+
 	if b, ok := key.([]byte); ok {
 		key = bytesToString(b)
 	}
@@ -24,10 +28,6 @@ func (d *DataKv) Set(key, val any) {
 			kv.val = val
 			return
 		}
-	}
-
-	if val == nil {
-		return
 	}
 
 	c := cap(args)
@@ -96,7 +96,7 @@ func (d *DataKv) Remove(key any) {
 	}
 }
 
-func (d *DataKv) All(fn func(k, v any) bool) {
+func (d *DataKv) Peek(fn func(k, v any) bool) {
 	data := *d
 	for i := range data {
 		k := data[i].key
